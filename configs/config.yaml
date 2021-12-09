@@ -1,0 +1,20 @@
+Server:
+  HttpPort: 8000
+  ReadTimeout: 60
+  WriteTimeout: 60
+App:
+  DefaultPageSize: 10
+  MaxPageSize: 100
+  LogSavePath: storage/logs
+  LogFileName: app
+  LogFileExt: .log
+Database:
+  DBType: mysql
+  Username: root  # 数据库账号
+  Password: root  # 数据库密码
+  Host: 59.110.216.139:8666
+  DBName: contractManage
+  Charset: utf8
+  ParseTime: True
+  MaxIdleConns: 10
+  MaxOpenConns: 30

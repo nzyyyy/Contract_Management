@@ -1,0 +1,224 @@
+definitions:
+  errcode.Error:
+    type: object
+  model.Contract:
+    properties:
+      beginTime:
+        type: string
+      content:
+        type: string
+      customerId:
+        type: integer
+      endTime:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      userId:
+        type: integer
+    type: object
+  model.ContractProcess:
+    properties:
+      content:
+        type: string
+      contractId:
+        type: integer
+      id:
+        type: integer
+      state:
+        type: integer
+      time:
+        type: string
+      type:
+        type: integer
+      userId:
+        type: integer
+    type: object
+info:
+  contact: {}
+paths:
+  /management/v1/contract/create:
+    post:
+      parameters:
+      - description: 合同名称
+        in: body
+        name: name
+        required: true
+        schema:
+          type: string
+      - description: 客户id
+        in: body
+        name: customerId
+        required: true
+        schema:
+          type: integer
+      - description: 开始时间
+        in: body
+        name: beginTime
+        required: true
+        schema:
+          type: string
+      - description: 结束时间
+        in: body
+        name: endTime
+        required: true
+        schema:
+          type: string
+      - description: 合同内容
+        in: body
+        name: content
+        required: true
+        schema:
+          type: string
+      - description: 起草人id
+        in: body
+        name: userId
+        required: true
+        schema:
+          type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/model.Contract'
+        "400":
+          description: 请求错误
+          schema:
+            $ref: '#/definitions/errcode.Error'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/errcode.Error'
+      summary: 新建合同
+  /management/v1/contract/delete/{id}:
+    get:
+      parameters:
+      - description: 合同id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/model.Contract'
+        "400":
+          description: 请求错误
+          schema:
+            $ref: '#/definitions/errcode.Error'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/errcode.Error'
+      summary: 删除合同
+  /management/v1/contract/update:
+    post:
+      parameters:
+      - description: 合同id
+        in: body
+        name: id
+        required: true
+        schema:
+          type: integer
+      - description: 合同内容
+        in: body
+        name: content
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/model.Contract'
+        "400":
+          description: 请求错误
+          schema:
+            $ref: '#/definitions/errcode.Error'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/errcode.Error'
+      summary: 修改合同
+  /management/v1/contractProcess/delete/{id}:
+    get:
+      parameters:
+      - description: 流程id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/model.Contract'
+        "400":
+          description: 请求错误
+          schema:
+            $ref: '#/definitions/errcode.Error'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/errcode.Error'
+      summary: 删除合同流程
+  /management/v1/contractProcess/update:
+    post:
+      parameters:
+      - description: 流程d
+        in: body
+        name: id
+        required: true
+        schema:
+          type: integer
+      - description: 合同id
+        in: body
+        name: contractId
+        required: true
+        schema:
+          type: integer
+      - description: 操作类型
+        in: body
+        name: type
+        required: true
+        schema:
+          type: integer
+      - description: 操作结果
+        in: body
+        name: State
+        required: true
+        schema:
+          type: integer
+      - description: 操作内容
+        in: body
+        name: content
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/model.ContractProcess'
+        "400":
+          description: 请求错误
+          schema:
+            $ref: '#/definitions/errcode.Error'
+        "500":
+          description: 内部错误
+          schema:
+            $ref: '#/definitions/errcode.Error'
+      summary: 修改合同流程
+swagger: "2.0"

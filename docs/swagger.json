@@ -1,0 +1,346 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/management/v1/contract/create": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "新建合同",
+                "parameters": [
+                    {
+                        "description": "合同名称",
+                        "name": "name",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "客户id",
+                        "name": "customerId",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "开始时间",
+                        "name": "beginTime",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "结束时间",
+                        "name": "endTime",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "合同内容",
+                        "name": "content",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "起草人id",
+                        "name": "userId",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/model.Contract"
+                        }
+                    },
+                    "400": {
+                        "description": "请求错误",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/management/v1/contract/delete/{id}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "删除合同",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "合同id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/model.Contract"
+                        }
+                    },
+                    "400": {
+                        "description": "请求错误",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/management/v1/contract/update": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "修改合同",
+                "parameters": [
+                    {
+                        "description": "合同id",
+                        "name": "id",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "合同内容",
+                        "name": "content",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/model.Contract"
+                        }
+                    },
+                    "400": {
+                        "description": "请求错误",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/management/v1/contractProcess/delete/{id}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "删除合同流程",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "流程id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/model.Contract"
+                        }
+                    },
+                    "400": {
+                        "description": "请求错误",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/management/v1/contractProcess/update": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "修改合同流程",
+                "parameters": [
+                    {
+                        "description": "流程d",
+                        "name": "id",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "合同id",
+                        "name": "contractId",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "操作类型",
+                        "name": "type",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "操作结果",
+                        "name": "State",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "操作内容",
+                        "name": "content",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/model.ContractProcess"
+                        }
+                    },
+                    "400": {
+                        "description": "请求错误",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/errcode.Error"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "errcode.Error": {
+            "type": "object"
+        },
+        "model.Contract": {
+            "type": "object",
+            "properties": {
+                "beginTime": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "customerId": {
+                    "type": "integer"
+                },
+                "endTime": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.ContractProcess": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "contractId": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "state": {
+                    "type": "integer"
+                },
+                "time": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "integer"
+                },
+                "userId": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}
