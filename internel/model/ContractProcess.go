@@ -1,8 +1,9 @@
 package model
 
 import (
-	"gorm.io/gorm"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 type ContractProcess struct {
@@ -28,6 +29,9 @@ func (c ContractProcess) Count(db *gorm.DB) (int64, error) {
 	var count int64
 	db.Model(&ContractProcess{}).Where("con_id=? AND type=? AND state=?", c.ContractId, c.Type, 0).Count(&count)
 	return count, nil
+}
+func (c ContractProcess) Create(db *gorm.DB) error {
+	return db.Create(&c).Error
 }
 
 //func (c ContractProcess) AfterUpdate(db *gorm.DB) error {
