@@ -37,3 +37,8 @@ func (d Dao) UpdateContractProcess(ID, contractId, Type, state int, content stri
 	}
 	return nil
 }
+
+func (d Dao) CreateContractProcess(ContractID, Type, UserId int) error {
+	c := model.ContractProcess{ContractId: ContractID, Type: Type, State: 0, UserId: UserId}
+	return c.Create(d.engine)
+}
