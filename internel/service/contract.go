@@ -16,11 +16,13 @@ type CreateContractRequest struct {
 	Type       string `json:"type"`
 }
 type DeleteContractRequest struct {
-	ID int `json:"id"`
+	ID     int `json:"id"`
+	UserId int `json:"userId"`
 }
 type UpdateContractRequest struct {
 	ID      int    `json:"id"`
 	Content string `json:"content"`
+	UserId  int    `json:"userId"`
 }
 
 func (svc *Service) CreateContract(params *CreateContractRequest) error {

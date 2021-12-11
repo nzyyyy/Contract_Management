@@ -15,13 +15,13 @@ func NewContractProcess() ContractProcess {
 	return ContractProcess{}
 }
 
-// @Summary 删除合同流程
-// @Produce json
-// @Param id path int true "流程id"
-// @Success 200 {object} model.Contract "成功"
-// @Failure 400 {object} errcode.Error "请求错误"
-// @Failure 500 {object} errcode.Error "内部错误"
-// @Router /management/v1/contractProcess/delete/{id} [get]
+// @Summary  删除合同流程
+// @Produce  json
+// @Param    id   path      int             true  "流程id"
+// @Success  200  {object}  model.Contract  "成功"
+// @Failure  400  {object}  errcode.Error   "请求错误"
+// @Failure  500  {object}  errcode.Error   "内部错误"
+// @Router   /management/v1/contractProcess/delete/{id} [get]
 func (con ContractProcess) Delete(c *gin.Context) {
 	id, err := convert.StrTo(c.Param("id")).Int()
 	response := app.NewResponse(c)
@@ -40,17 +40,17 @@ func (con ContractProcess) Delete(c *gin.Context) {
 	return
 }
 
-// @Summary 修改合同流程
-// @Produce json
-// @Param id body int true "流程id"
-// @Param contractId body int true "合同id"
-// @Param type body int true "操作类型"
-// @Param State body int true "操作结果"
-// @Param content body string true "操作内容"
-// @Success 200 {object} model.ContractProcess "成功"
-// @Failure 400 {object} errcode.Error "请求错误"
-// @Failure 500 {object} errcode.Error "内部错误"
-// @Router /management/v1/contractProcess/update [post]
+// @Summary  修改合同流程
+// @Produce  json
+// @Param    id          body      int                    true  "流程id"
+// @Param    contractId  body      int                    true  "合同id"
+// @Param    type        body      int                    true  "操作类型"
+// @Param    state       body      int                    true  "操作结果"
+// @Param    content     body      string                 true  "操作内容"
+// @Success  200         {object}  model.ContractProcess  "成功"
+// @Failure  400         {object}  errcode.Error          "请求错误"
+// @Failure  500         {object}  errcode.Error          "内部错误"
+// @Router   /management/v1/contractProcess/update [post]
 func (con ContractProcess) Update(c *gin.Context) {
 	params := service.UpdateContractProcessRequest{}
 	response := app.NewResponse(c)
@@ -69,15 +69,15 @@ func (con ContractProcess) Update(c *gin.Context) {
 	return
 }
 
-// @Summary 合同分配
-// @Produce json
-// @Param contractId body int true "合同id"
-// @Param type body int true "操作类型"
-// @Param userId body int true "操作人id"
-// @Success 200 {object} model.ContractProcess "成功"
-// @Failure 400 {object} errcode.Error "请求错误"
-// @Failure 500 {object} errcode.Error "内部错误"
-// @Router /management/v1/contractProcess/create [post]
+// @Summary  合同分配
+// @Produce  json
+// @Param    contractId  body      int                    true  "合同id"
+// @Param    type        body      int                    true  "操作类型"
+// @Param    userId      body      int                    true  "操作人id"
+// @Success  200         {object}  model.ContractProcess  "成功"
+// @Failure  400         {object}  errcode.Error          "请求错误"
+// @Failure  500         {object}  errcode.Error          "内部错误"
+// @Router   /management/v1/contractProcess/create [post]
 func (con ContractProcess) Create(c *gin.Context) {
 	params := service.CreateContractProcessRequest{}
 	response := app.NewResponse(c)
@@ -89,7 +89,7 @@ func (con ContractProcess) Create(c *gin.Context) {
 	svc := service.New()
 	err = svc.CreateContractProcess(&params)
 	if err != nil {
-		response.ToErrorResponse(errcode.ErrorUpdateContractProcessFail)
+		response.ToErrorResponse(errcode.ErrorCreateContractProcessFail)
 		return
 	}
 	response.ToResponse(gin.H{})

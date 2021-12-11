@@ -1,9 +1,9 @@
 package service
 
 type CreateOrUpdateRightRequest struct {
-	UserId      int `json:"userId"`
-	RoleId      int `json:"roleId"`
-	Description string
+	UserId      int    `json:"userId"`
+	RoleId      int    `json:"roleId"`
+	Description string `json:"description"`
 }
 
 func (svc *Service) CreateRight(params *CreateOrUpdateRightRequest) error {
