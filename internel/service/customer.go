@@ -8,6 +8,11 @@ type CreateCustomerRequest struct {
 	Code    string `json:"code"`
 	Bank    string `json:"bank"`
 	Account string `json:"account"`
+	UserId  int    `json:"userId"`
+}
+type DeleteCustomerRequest struct {
+	CustomerId int `json:"customerId"`
+	UserId     int `json:"userId"`
 }
 
 func (svc *Service) CreateCustomer(params *CreateCustomerRequest) error {

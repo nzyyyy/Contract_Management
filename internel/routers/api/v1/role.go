@@ -3,8 +3,8 @@ package v1
 import (
 	"contract_management/internel/service"
 	"contract_management/pkg/app"
-	"contract_management/pkg/convert"
 	"contract_management/pkg/errcode"
+	"fmt"
 
 	"github.com/gin-gonic/gin"
 )
@@ -38,8 +38,9 @@ func (r Role) Create(c *gin.Context) {
 		response.ToErrorResponse(errcode.ErrorCreateRoleFail)
 		return
 	}
+	log := service.CreateLogRequest{UserId: params.OperatorId, Content: fmt.Sprintf("创建角色:%s",params.Name)}
+	go svc.CreateLog(&log)
 	response.ToResponse(gin.H{})
-	return
 }
 
 // @Summary  删除角色
@@ -50,18 +51,20 @@ func (r Role) Create(c *gin.Context) {
 // @Failure  500  {object}  errcode.Error  "内部错误"
 // @Router   /management/v1/role/delete/{id} [GET]
 func (r Role) Delete(c *gin.Context) {
-	id, err := convert.StrTo(c.Param("id")).Int()
+	params := service.DeleteRoleRequest{}
 	response := app.NewResponse(c)
+	err := c.ShouldBind(&params)
 	if err != nil {
 		response.ToErrorResponse(errcode.InvalidParams)
 		return
 	}
 	svc := service.New()
-	err = svc.DeleteRole(id)
+	err = svc.DeleteRole(params.RoleId)
 	if err != nil {
 		response.ToErrorResponse(errcode.ErrorDeleteRoleFail)
 		return
 	}
+	log := service.CreateLogRequest{UserId: params.OperatorId, Content: fmt.Sprintf("删除了角色id为:%d的角色",params.RoleId)}
+	go svc.CreateLog(&log)
 	response.ToResponse(gin.H{})
-	return
 }

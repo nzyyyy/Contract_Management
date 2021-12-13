@@ -4,6 +4,12 @@ type CreateOrUpdateRightRequest struct {
 	UserId      int    `json:"userId"`
 	RoleId      int    `json:"roleId"`
 	Description string `json:"description"`
+	OperatorId  int    `json:"operatorId"`
+}
+
+type DeleteRightRequest struct {
+	UserId int `json:"userId"`
+	OperatorId int `json:"operatorId"`
 }
 
 func (svc *Service) CreateRight(params *CreateOrUpdateRightRequest) error {

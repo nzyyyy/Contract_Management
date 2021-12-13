@@ -10,9 +10,15 @@ type UpdateContractProcessRequest struct {
 	Type       int    `json:"type"`
 	State      int    `json:"state"`
 	Content    string `json:"content"`
+	UserId     int `json:"userId"`
 }
 type CreateContractProcessRequest struct {
 	ContractId int `json:"contractId"`
+	Processes []Process `json:"process"`
+	OperatorId int `json:"operatorId"`
+}
+
+type Process struct {
 	Type       int `json:"type"`
 	UserId     int `json:"userId"`
 }
@@ -26,5 +32,10 @@ func (svc *Service) UpdateContractProcess(params *UpdateContractProcessRequest) 
 }
 
 func (svc *Service) CreateContractProcess(params *CreateContractProcessRequest) error {
-	return svc.dao.CreateContractProcess(params.ContractId, params.Type, params.UserId)
+	for _,process := range params.Processes{
+		if err := svc.dao.CreateContractProcess(params.ContractId, process.Type, process.UserId); err != nil {
+			return err
+		}
+	}
+	return nil
 }
