@@ -19,6 +19,7 @@ func NewRouter() *gin.Engine {
 	customer := v1.NewCustomer()
 	right := v1.NewRight()
 	role := v1.NewRole()
+	log := v1.NewLog()
 	apiv1 := r.Group("management/v1")
 	{
 		apiv1.POST("/contract/create", contract.Create)
@@ -30,14 +31,16 @@ func NewRouter() *gin.Engine {
 		apiv1.POST("/contractProcess/create", contractProcess.Create)
 
 		apiv1.POST("/customer/create", customer.Create)
-		apiv1.GET("/customer/delete/:id", customer.Delete)
+		apiv1.POST("/customer/delete", customer.Delete)
 
 		apiv1.POST("/right/update", right.Update)
-		apiv1.GET("/right/delete/:id", right.Delete)
+		apiv1.POST("/right/delete", right.Delete)
 		apiv1.POST("/right/create", right.Create)
 
 		apiv1.POST("/role/create", role.Create)
-		apiv1.GET("/role/delete/:id", role.Delete)
+		apiv1.POST("/role/delete", role.Delete)
+
+		apiv1.POST("/log/delete", log.Delete)
 	}
 	return r
 }

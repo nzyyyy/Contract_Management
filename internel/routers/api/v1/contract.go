@@ -47,7 +47,6 @@ func (con Contract) Create(c *gin.Context) {
 	log := service.CreateLogRequest{UserId: params.UserId, Content: "起草合同: " + params.Name}
 	go svc.CreateLog(&log)
 	response.ToResponse(gin.H{})
-	return
 }
 
 // @Summary  删除合同
@@ -75,7 +74,6 @@ func (con Contract) Delete(c *gin.Context) {
 	log := service.CreateLogRequest{UserId: params.UserId, Content: "删除合同: " + strconv.Itoa(params.ID)}
 	go svc.CreateLog(&log)
 	response.ToResponse(gin.H{})
-	return
 }
 
 // @Summary  修改合同
@@ -104,5 +102,4 @@ func (con Contract) Update(c *gin.Context) {
 	log := service.CreateLogRequest{UserId: params.UserId, Content: "定稿合同: " + strconv.Itoa(params.ID)}
 	go svc.CreateLog(&log)
 	response.ToResponse(gin.H{})
-	return
 }

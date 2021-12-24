@@ -1,10 +1,13 @@
 package v1
 
 import (
+	"bytes"
 	"contract_management/internel/service"
 	"contract_management/pkg/app"
 	"contract_management/pkg/convert"
 	"contract_management/pkg/errcode"
+	"fmt"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -37,7 +40,6 @@ func (con ContractProcess) Delete(c *gin.Context) {
 		return
 	}
 	response.ToResponse(gin.H{})
-	return
 }
 
 // @Summary  修改合同流程
@@ -47,6 +49,7 @@ func (con ContractProcess) Delete(c *gin.Context) {
 // @Param    type        body      int                    true  "操作类型"
 // @Param    state       body      int                    true  "操作结果"
 // @Param    content     body      string                 true  "操作内容"
+// @Param    userId      body      int                    true  "操作人id"
 // @Success  200         {object}  model.ContractProcess  "成功"
 // @Failure  400         {object}  errcode.Error          "请求错误"
 // @Failure  500         {object}  errcode.Error          "内部错误"
@@ -65,15 +68,31 @@ func (con ContractProcess) Update(c *gin.Context) {
 		response.ToErrorResponse(errcode.ErrorUpdateContractProcessFail)
 		return
 	}
+	var buffer bytes.Buffer
+	switch params.Type {
+	case 1:
+		buffer.WriteString(fmt.Sprintf("通过了id为%d的合同的会签", params.ContractId))
+	case 2:
+		if params.ContractId == 1 {
+			buffer.WriteString(fmt.Sprintf("通过了id为%d的合同的审批", params.ContractId))
+		} else {
+			buffer.WriteString(fmt.Sprintf("否决了id为%d的合同的审批", params.ContractId))
+		}
+	case 3:
+		buffer.WriteString(fmt.Sprintf("完成了id为%d的合同的签订", params.ContractId))
+	default:
+
+	}
+	log := service.CreateLogRequest{UserId: params.UserId, Content: buffer.String()}
+	go svc.CreateLog(&log)
 	response.ToResponse(gin.H{})
-	return
 }
 
 // @Summary  合同分配
 // @Produce  json
 // @Param    contractId  body      int                    true  "合同id"
-// @Param    type        body      int                    true  "操作类型"
-// @Param    userId      body      int                    true  "操作人id"
+// @Param    proceses        body      []service.Process                    true  "操作类型和操作人集合"
+// @Param	operatorId	body 	 int             true  "分配者id"
 // @Success  200         {object}  model.ContractProcess  "成功"
 // @Failure  400         {object}  errcode.Error          "请求错误"
 // @Failure  500         {object}  errcode.Error          "内部错误"
@@ -92,6 +111,7 @@ func (con ContractProcess) Create(c *gin.Context) {
 		response.ToErrorResponse(errcode.ErrorCreateContractProcessFail)
 		return
 	}
+	log := service.CreateLogRequest{UserId: params.OperatorId, Content: "分配合同:" + strconv.Itoa(params.ContractId)}
+	go svc.CreateLog(&log)
 	response.ToResponse(gin.H{})
-	return
 }

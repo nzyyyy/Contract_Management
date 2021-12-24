@@ -10,8 +10,8 @@ type Contract struct {
 	ID         int `gorm:"autoIncrement"`
 	Name       string
 	CustomerId int       `gorm:"column:customer_id"`
-	BeginTime  time.Time `gorm:"column:BeginTime"`
-	EndTime    time.Time `gorm:"column:EndTime"`
+	BeginTime  time.Time `gorm:"column:begin_time"`
+	EndTime    time.Time `gorm:"column:end_time"`
 	Content    string
 	UserId     int `gorm:"column:user_id"`
 }

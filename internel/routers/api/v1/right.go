@@ -3,8 +3,8 @@ package v1
 import (
 	"contract_management/internel/service"
 	"contract_management/pkg/app"
-	"contract_management/pkg/convert"
 	"contract_management/pkg/errcode"
+	"fmt"
 
 	"github.com/gin-gonic/gin"
 )
@@ -20,6 +20,7 @@ func NewRight() Right {
 // @Param    userId       body      int            true  "用户id"
 // @Param    roleId       body      int            true  "角色id"
 // @Param    description  body      string         true  "描述信息"
+// @Param    operatorId       body      int            true  "操作人id"
 // @Success  200          {object}  model.Right    "成功"
 // @Failure  400          {object}  errcode.Error  "请求错误"
 // @Failure  500          {object}  errcode.Error  "内部错误"
@@ -38,8 +39,9 @@ func (r Right) Create(c *gin.Context) {
 		response.ToErrorResponse(errcode.ErrorCreateRightFail)
 		return
 	}
+	log := service.CreateLogRequest{UserId: params.OperatorId, Content: fmt.Sprintf("对用户id:%d授权角色id:%d的角色", params.UserId, params.RoleId)}
+	go svc.CreateLog(&log)
 	response.ToResponse(gin.H{})
-	return
 }
 
 // @Summary  删除权限
@@ -48,22 +50,24 @@ func (r Right) Create(c *gin.Context) {
 // @Success  200  {object}  model.Right    "成功"
 // @Failure  400  {object}  errcode.Error  "请求错误"
 // @Failure  500  {object}  errcode.Error  "内部错误"
-// @Router   /management/v1/right/delete/{id} [GET]
+// @Router   /management/v1/right/delete/{id} [post]
 func (r Right) Delete(c *gin.Context) {
-	id, err := convert.StrTo(c.Param("id")).Int()
+	params := service.DeleteRightRequest{}
 	response := app.NewResponse(c)
+	err := c.ShouldBind(&params)
 	if err != nil {
 		response.ToErrorResponse(errcode.InvalidParams)
 		return
 	}
 	svc := service.New()
-	err = svc.DeleteRight(id)
+	err = svc.DeleteRight(params.UserId)
 	if err != nil {
 		response.ToErrorResponse(errcode.ErrorDeleteRightFail)
 		return
 	}
+	log := service.CreateLogRequest{UserId: params.OperatorId, Content: fmt.Sprintf("删除用户id为%d的权限", params.UserId)}
+	go svc.CreateLog(&log)
 	response.ToResponse(gin.H{})
-	return
 }
 
 // @Summary  更新权限
@@ -71,6 +75,7 @@ func (r Right) Delete(c *gin.Context) {
 // @Param    userId       body      int            true  "用户id"
 // @Param    roleId       body      int            true  "角色id"
 // @Param    description  body      string         true  "描述信息"
+// @Param    operatorId       body      int            true  "操作人id"
 // @Success  200          {object}  model.Right    "成功"
 // @Failure  400          {object}  errcode.Error  "请求错误"
 // @Failure  500          {object}  errcode.Error  "内部错误"
@@ -89,6 +94,7 @@ func (r Right) Update(c *gin.Context) {
 		response.ToErrorResponse(errcode.ErrorUpdateRightFail)
 		return
 	}
+	log := service.CreateLogRequest{UserId: params.OperatorId, Content: fmt.Sprintf("对用户id:%d修改为角色id:%d的角色", params.UserId, params.RoleId)}
+	go svc.CreateLog(&log)
 	response.ToResponse(gin.H{})
-	return
 }

@@ -22,6 +22,7 @@ type DeleteContractRequest struct {
 type UpdateContractRequest struct {
 	ID      int    `json:"id"`
 	Content string `json:"content"`
+	Path    string `json:"path"`
 	UserId  int    `json:"userId"`
 }
 
@@ -44,5 +45,18 @@ func (svc *Service) DeleteContract(params *DeleteContractRequest) error {
 }
 
 func (svc *Service) UpdateContract(params *UpdateContractRequest) error {
-	return svc.dao.UpdateContract(params.ID, params.Content)
+	err := svc.dao.UpdateContract(params.ID, params.Content)
+	if err != nil {
+		return err
+	}
+	err = svc.dao.UpdateFilePath(params.ID, params.Path)
+	if err != nil {
+		return err
+	}
+	err = svc.dao.UpdateContractState(params.ID, 3)
+	if err != nil {
+		return err
+	}
+	//TODO 通知审批人审批合同
+	return nil
 }

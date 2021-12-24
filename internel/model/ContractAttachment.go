@@ -11,7 +11,7 @@ type ContractAttachment struct {
 	FileName   string `gorm:"column:fileName"`
 	Path       string
 	Type       string
-	UploadTime time.Time `gorm:"column:uploadTime;autoCreateTime"`
+	UploadTime time.Time `gorm:"column:uploadTime;autoUpdateTime"`
 }
 
 func (ContractAttachment) TableName() string {
@@ -23,4 +23,7 @@ func (c ContractAttachment) Create(db *gorm.DB) error {
 }
 func (c ContractAttachment) Delete(db *gorm.DB) error {
 	return db.Delete(&c).Error
+}
+func (c ContractAttachment) Update(db *gorm.DB) error {
+	return db.Model(&c).Update("path", c.Path).Error
 }
