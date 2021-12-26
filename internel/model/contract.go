@@ -20,6 +20,11 @@ func (Contract) TableName() string {
 	return "contract"
 }
 
+type APIContract struct {
+	ID   int
+	Name string
+}
+
 func (c Contract) Create(db *gorm.DB) (int, error) {
 	err := db.Create(&c).Error
 	if err != nil {
@@ -33,7 +38,16 @@ func (c Contract) Delete(db *gorm.DB) error {
 func (c Contract) Update(db *gorm.DB) error {
 	return db.Model(&c).Update("content", c.Content).Error
 }
-
+func (c Contract) AllList(db *gorm.DB) ([]*APIContract, error) {
+	var result []*APIContract
+	err := db.Model(Contract{}).Find(&result).Error
+	return result, err
+}
+func (c Contract) ListByUser(db *gorm.DB) ([]*APIContract, error) {
+	var result []*APIContract
+	err := db.Model(Contract{}).Where("user_id = ?", c.UserId).Find(&result).Error
+	return result, err
+}
 func (c Contract) AfterCreate(db *gorm.DB) error {
 	con := ContractState{
 		ContractId: c.ID,

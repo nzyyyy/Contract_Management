@@ -15,6 +15,10 @@ type ContractProcess struct {
 	Content    string
 	Time       time.Time `gorm:"autoUpdateTime"`
 }
+type CommentOfContract struct {
+	Content string
+	Time    time.Time
+}
 
 func (ContractProcess) TableName() string {
 	return "contract_process"
@@ -32,4 +36,9 @@ func (c ContractProcess) Count(db *gorm.DB) (int64, error) {
 }
 func (c ContractProcess) Create(db *gorm.DB) error {
 	return db.Create(&c).Error
+}
+func (c ContractProcess) SelectContractComment(db *gorm.DB) ([]*CommentOfContract, error) {
+	var result []*CommentOfContract
+	err := db.Model(ContractProcess{}).Where("con_id=? and type=?", c.ContractId, c.Type).Find(&result).Error
+	return result, err
 }

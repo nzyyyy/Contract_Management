@@ -1,5 +1,7 @@
 package service
 
+import "contract_management/internel/model"
+
 type CreateCustomerRequest struct {
 	Name    string `json:"name"`
 	Address string `json:"address"`
@@ -21,4 +23,10 @@ func (svc *Service) CreateCustomer(params *CreateCustomerRequest) error {
 
 func (svc *Service) DeleteCustomer(param int) error {
 	return svc.dao.DeleteCustomer(param)
+}
+func (svc *Service) GetCustomerPartList() ([]*model.APICustomer, error) {
+	return svc.dao.GetCustomerPartList()
+}
+func (svc *Service) GetCustomerById(ID int) (*model.Customer, error) {
+	return svc.dao.GetOneCustomerById(ID)
 }

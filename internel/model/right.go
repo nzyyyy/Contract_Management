@@ -9,7 +9,7 @@ type Right struct {
 }
 
 func (r Right) TableName() string {
-	return "right"
+	return "rights"
 }
 
 func (r Right) Create(db *gorm.DB) error {

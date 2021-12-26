@@ -24,3 +24,9 @@ func (d Dao) CountProcess(ContractID, Type, State int) int64 {
 	count, _ := c.Count(d.engine)
 	return count
 }
+
+func (d Dao) SelectContractComment(ContractId, Type int) ([]*model.CommentOfContract, error) {
+	c := model.ContractProcess{ContractId: ContractId, Type: Type}
+	return c.SelectContractComment(d.engine)
+
+}

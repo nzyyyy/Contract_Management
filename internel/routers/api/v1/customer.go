@@ -3,6 +3,7 @@ package v1
 import (
 	"contract_management/internel/service"
 	"contract_management/pkg/app"
+	"contract_management/pkg/convert"
 	"contract_management/pkg/errcode"
 	"strconv"
 
@@ -73,4 +74,29 @@ func (cus Customer) Delete(c *gin.Context) {
 	log := service.CreateLogRequest{UserId: params.UserId, Content: "删除用户,id为:" + strconv.Itoa(params.CustomerId)}
 	go svc.CreateLog(&log)
 	response.ToResponse(gin.H{})
+}
+func (cus Customer) ListOfPart(c *gin.Context) {
+	response := app.NewResponse(c)
+	svc := service.New()
+	list, err := svc.GetCustomerPartList()
+	if err != nil {
+		response.ToErrorResponse(errcode.ErrorDeleteCustomerFail)
+		return
+	}
+	response.ToResponse(list)
+}
+func (cus Customer) GetCustomerById(c *gin.Context) {
+	response := app.NewResponse(c)
+	id, err := convert.StrTo(c.Param("id")).Int()
+	if err != nil {
+		response.ToErrorResponse(errcode.InvalidParams)
+		return
+	}
+	svc := service.New()
+	customer, err := svc.GetCustomerById(id)
+	if err != nil {
+		response.ToErrorResponse(errcode.ErrorDeleteCustomerFail)
+		return
+	}
+	response.ToResponse(customer)
 }

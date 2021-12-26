@@ -30,3 +30,9 @@ func (d Dao) UpdateContract(id int, content string) error {
 	contract := model.Contract{ID: id, Content: content}
 	return contract.Update(d.engine)
 }
+func (d Dao) GetAllList() ([]*model.APIContract, error) {
+	return model.Contract{}.AllList(d.engine)
+}
+func (d Dao) GetListByUserID(userId int) ([]*model.APIContract, error) {
+	return model.Contract{UserId: userId}.ListByUser(d.engine)
+}

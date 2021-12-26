@@ -1,5 +1,7 @@
 package service
 
+import "contract_management/internel/model"
+
 type DeleteContractProcessRequest struct {
 	ID int
 }
@@ -62,4 +64,8 @@ func (svc *Service) CreateContractProcess(params *CreateContractProcessRequest) 
 		}
 	}
 	return nil
+}
+
+func (svc *Service) SelectContractComment(ContractId, Type int) ([]*model.CommentOfContract, error) {
+	return svc.dao.SelectContractComment(ContractId, Type)
 }

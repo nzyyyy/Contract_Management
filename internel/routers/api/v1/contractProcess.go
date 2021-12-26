@@ -115,3 +115,24 @@ func (con ContractProcess) Create(c *gin.Context) {
 	go svc.CreateLog(&log)
 	response.ToResponse(gin.H{})
 }
+
+func (con ContractProcess) GetContractComment(c *gin.Context) {
+	response := app.NewResponse(c)
+	id, err := convert.StrTo(c.Param("id")).Int()
+	if err != nil {
+		response.ToErrorResponse(errcode.InvalidParams)
+		return
+	}
+	Type, err := convert.StrTo(c.Param("type")).Int()
+	if err != nil {
+		response.ToErrorResponse(errcode.InvalidParams)
+		return
+	}
+	svc := service.New()
+	comment, err := svc.SelectContractComment(id, Type)
+	if err != nil {
+		response.ToErrorResponse(errcode.ErrorDeleteCustomerFail)
+		return
+	}
+	response.ToResponse(comment)
+}

@@ -1,6 +1,7 @@
 package service
 
 import (
+	"contract_management/internel/model"
 	"github.com/araddon/dateparse"
 )
 
@@ -59,4 +60,10 @@ func (svc *Service) UpdateContract(params *UpdateContractRequest) error {
 	}
 	//TODO 通知审批人审批合同
 	return nil
+}
+func (svc *Service) GetAllList() ([]*model.APIContract, error) {
+	return svc.dao.GetAllList()
+}
+func (svc *Service) GetListByUser(userId int) ([]*model.APIContract, error) {
+	return svc.dao.GetListByUserID(userId)
 }
