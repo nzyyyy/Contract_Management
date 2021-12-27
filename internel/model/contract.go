@@ -7,13 +7,13 @@ import (
 )
 
 type Contract struct {
-	ID         int `gorm:"autoIncrement"`
-	Name       string
-	CustomerId int       `gorm:"column:customer_id"`
-	BeginTime  time.Time `gorm:"column:begin_time"`
-	EndTime    time.Time `gorm:"column:end_time"`
-	Content    string
-	UserId     int `gorm:"column:user_id"`
+	ID         int       `gorm:"autoIncrement" json:"id"`
+	Name       string    `json:"name"`
+	CustomerId int       `gorm:"column:customer_id" json:"customerId"`
+	BeginTime  time.Time `gorm:"column:begin_time" json:"beginTime"`
+	EndTime    time.Time `gorm:"column:end_time" json:"endTime"`
+	Content    string    `json:"content"`
+	UserId     int       `gorm:"column:user_id" json:"userId"`
 }
 
 func (Contract) TableName() string {
@@ -21,8 +21,8 @@ func (Contract) TableName() string {
 }
 
 type APIContract struct {
-	ID   int
-	Name string
+	ID   int    `json:"id"`
+	Name string `json:"name"`
 }
 
 func (c Contract) Create(db *gorm.DB) (int, error) {
@@ -47,6 +47,11 @@ func (c Contract) ListByUser(db *gorm.DB) ([]*APIContract, error) {
 	var result []*APIContract
 	err := db.Model(Contract{}).Where("user_id = ?", c.UserId).Find(&result).Error
 	return result, err
+}
+func (c Contract) GetContractById(db *gorm.DB) (*Contract, error) {
+	con := new(Contract)
+	err := db.First(&con, c.ID).Error
+	return con, err
 }
 func (c Contract) AfterCreate(db *gorm.DB) error {
 	con := ContractState{

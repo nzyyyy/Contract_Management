@@ -7,17 +7,17 @@ import (
 )
 
 type ContractProcess struct {
-	ID         int `gorm:"autoIncrement"`
-	ContractId int `gorm:"column:con_id"`
-	Type       int
-	State      int
-	UserId     int `gorm:"column:user_id"`
-	Content    string
-	Time       time.Time `gorm:"autoUpdateTime"`
+	ID         int       `gorm:"autoIncrement" json:"id"`
+	ContractId int       `gorm:"column:con_id" json:"contractId"`
+	Type       int       `json:"type"`
+	State      int       `json:"state"`
+	UserId     int       `gorm:"column:user_id" json:"userId"`
+	Content    string    `json:"content"`
+	Time       time.Time `gorm:"autoUpdateTime" json:"time"`
 }
 type CommentOfContract struct {
-	Content string
-	Time    time.Time
+	Content string    `json:"content"`
+	Time    time.Time `json:"time"`
 }
 
 func (ContractProcess) TableName() string {

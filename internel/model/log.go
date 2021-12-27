@@ -6,10 +6,10 @@ import (
 )
 
 type Log struct {
-	ID      int       `gorm:"autoIncrement"`
-	UserId  int       `gorm:"column:user_id"`
-	Time    time.Time `gorm:"autoCreateTime"`
-	Context string
+	ID      int       `gorm:"autoIncrement" json:"id"`
+	UserId  int       `gorm:"column:user_id" json:"userId"`
+	Time    time.Time `gorm:"autoCreateTime" json:"time"`
+	Context string    `json:"context"`
 }
 
 func (l Log) TableName() string {

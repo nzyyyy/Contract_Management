@@ -3,9 +3,9 @@ package model
 import "gorm.io/gorm"
 
 type ContractWithState struct {
-	ID   int
-	Name string
-	Type int
+	ID   int    `json:"id"`
+	Name string `json:"name"`
+	Type int    `json:"type"`
 }
 
 func (c ContractWithState) AllList(db *gorm.DB) ([]*ContractWithState, error) {
@@ -26,11 +26,11 @@ func (c ContractWithState) ListByUser(db *gorm.DB, id int) ([]*ContractWithState
 }
 
 type UserWithRole struct {
-	ID       int
-	Username string
-	Email    string
-	Name     string
-	RoleId   int `gorm:"column:role_id"`
+	ID       int    `json:"id"`
+	Username string `json:"username"`
+	Email    string `json:"email"`
+	Name     string `json:"name"`
+	RoleId   int    `gorm:"column:role_id" json:"roleId"`
 }
 
 func (u UserWithRole) List(db *gorm.DB) ([]*UserWithRole, error) {

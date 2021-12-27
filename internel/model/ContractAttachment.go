@@ -7,11 +7,11 @@ import (
 )
 
 type ContractAttachment struct {
-	ContractId int    `gorm:"column:con_id;primaryKey"`
-	FileName   string `gorm:"column:fileName"`
-	Path       string
-	Type       string
-	UploadTime time.Time `gorm:"column:uploadTime;autoUpdateTime"`
+	ContractId int       `gorm:"column:con_id;primaryKey" json:"contractId"`
+	FileName   string    `gorm:"column:fileName" json:"fileName"`
+	Path       string    `json:"path"`
+	Type       string    `json:"type"`
+	UploadTime time.Time `json:"uploadTime" gorm:"column:uploadTime;autoUpdateTime"`
 }
 
 func (ContractAttachment) TableName() string {

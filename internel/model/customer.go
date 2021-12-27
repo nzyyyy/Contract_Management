@@ -3,19 +3,19 @@ package model
 import "gorm.io/gorm"
 
 type Customer struct {
-	ID      int `gorm:"autoIncrement"`
-	Name    string
-	Address string
-	Tel     string
-	Fax     string
-	Code    string
-	Bank    string
-	Account string
+	ID      int    `gorm:"autoIncrement" json:"id"`
+	Name    string `json:"name"`
+	Address string `json:"address"`
+	Tel     string `json:"tel"`
+	Fax     string `json:"fax"`
+	Code    string `json:"code"`
+	Bank    string `json:"bank"`
+	Account string `json:"account"`
 }
 
 type APICustomer struct {
-	ID   int
-	Name string
+	ID   int    `json:"id"`
+	Name string `json:"name"`
 }
 
 func (Customer) TableName() string {

@@ -3,9 +3,9 @@ package model
 import "gorm.io/gorm"
 
 type Right struct {
-	UserId      int `gorm:"column:user_id;primaryKey"`
-	RoleId      int `gorm:"column:role_id"`
-	Description string
+	UserId      int    `gorm:"column:user_id;primaryKey" json:"userId"`
+	RoleId      int    `gorm:"column:role_id" json:"roleId"`
+	Description string `json:"description"`
 }
 
 func (r Right) TableName() string {

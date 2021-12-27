@@ -30,6 +30,7 @@ func NewRouter() *gin.Engine {
 		apiv1.POST("/contract/update", contract.Update)
 		apiv1.GET("/contract/allList", contract.GetAllList)
 		apiv1.GET("/contract/listByUser/:id", contract.GetListByUser)
+		apiv1.GET("/contract/contractById/:id", contract.GetContractById)
 
 		apiv1.POST("/contractProcess/update", contractProcess.Update)
 		apiv1.GET("/contractProcess/delete/:id", contractProcess.Delete)

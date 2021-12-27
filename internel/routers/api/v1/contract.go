@@ -130,3 +130,18 @@ func (con Contract) GetListByUser(c *gin.Context) {
 	}
 	response.ToResponse(list)
 }
+func (con Contract) GetContractById(c *gin.Context) {
+	response := app.NewResponse(c)
+	id, err := convert.StrTo(c.Param("id")).Int()
+	if err != nil {
+		response.ToErrorResponse(errcode.InvalidParams)
+		return
+	}
+	svc := service.New()
+	contract, err := svc.GetContractById(id)
+	if err != nil {
+		response.ToErrorResponse(errcode.ErrorDeleteCustomerFail)
+		return
+	}
+	response.ToResponse(contract)
+}

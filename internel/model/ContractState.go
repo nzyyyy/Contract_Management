@@ -6,9 +6,9 @@ import (
 )
 
 type ContractState struct {
-	ContractId int `gorm:"column:con_id;primaryKey"`
-	Type       int
-	Time       time.Time `gorm:"autoUpdateTime"`
+	ContractId int       `gorm:"column:con_id;primaryKey" json:"contractId"`
+	Type       int       `json:"type"`
+	Time       time.Time `gorm:"autoUpdateTime" json:"time"`
 }
 
 func (ContractState) TableName() string {
