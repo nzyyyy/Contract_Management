@@ -30,3 +30,8 @@ func (d Dao) SelectContractComment(ContractId, Type int) ([]*model.CommentOfCont
 	return c.SelectContractComment(d.engine)
 
 }
+
+func (d Dao) SelectOperator(ContractId, Type int) ([]int, error) {
+	c := model.ContractProcess{ContractId: ContractId, Type: Type}
+	return c.SelectOperatorId(d.engine)
+}

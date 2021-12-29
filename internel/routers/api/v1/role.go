@@ -3,6 +3,7 @@ package v1
 import (
 	"contract_management/internel/service"
 	"contract_management/pkg/app"
+	"contract_management/pkg/convert"
 	"contract_management/pkg/errcode"
 	"fmt"
 
@@ -67,4 +68,30 @@ func (r Role) Delete(c *gin.Context) {
 	log := service.CreateLogRequest{UserId: params.OperatorId, Content: fmt.Sprintf("删除了角色id为:%d的角色", params.RoleId)}
 	go svc.CreateLog(&log)
 	response.ToResponse(gin.H{})
+}
+
+func (r Role) GetAllRole(c *gin.Context) {
+	response := app.NewResponse(c)
+	svc := service.New()
+	list, err := svc.GetAllRole()
+	if err != nil {
+		response.ToErrorResponse(errcode.ErrorDeleteCustomerFail)
+		return
+	}
+	response.ToResponse(list)
+}
+func (r Role) GetRoleById(c *gin.Context) {
+	response := app.NewResponse(c)
+	id, err := convert.StrTo(c.Param("id")).Int()
+	if err != nil {
+		response.ToErrorResponse(errcode.InvalidParams)
+		return
+	}
+	svc := service.New()
+	role, err := svc.GetRoleById(id)
+	if err != nil {
+		response.ToErrorResponse(errcode.ErrorDeleteCustomerFail)
+		return
+	}
+	response.ToResponse(role)
 }

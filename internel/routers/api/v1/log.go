@@ -29,3 +29,13 @@ func (l Log) Delete(c *gin.Context) {
 	}
 	response.ToResponse(gin.H{})
 }
+func (l Log) GetAll(c *gin.Context) {
+	response := app.NewResponse(c)
+	svc := service.New()
+	list, err := svc.GetLogList()
+	if err != nil {
+		response.ToErrorResponse(errcode.InvalidParams)
+		return
+	}
+	response.ToResponse(list)
+}

@@ -37,6 +37,18 @@ func (c ContractProcess) Count(db *gorm.DB) (int64, error) {
 func (c ContractProcess) Create(db *gorm.DB) error {
 	return db.Create(&c).Error
 }
+func (c ContractProcess) SelectOperatorId(db *gorm.DB) ([]int, error) {
+	var temp []*ContractProcess
+	err := db.Select("user_id").Where("con_id=? and type=?", c.ContractId, c.Type).Find(&temp).Error
+	if err != nil {
+		return nil, err
+	}
+	var result []int
+	for _, process := range temp {
+		result = append(result, process.UserId)
+	}
+	return result, nil
+}
 func (c ContractProcess) SelectContractComment(db *gorm.DB) ([]*CommentOfContract, error) {
 	var result []*CommentOfContract
 	err := db.Model(ContractProcess{}).Where("con_id=? and type=?", c.ContractId, c.Type).Find(&result).Error

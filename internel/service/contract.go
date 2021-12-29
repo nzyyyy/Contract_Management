@@ -2,6 +2,7 @@ package service
 
 import (
 	"contract_management/internel/model"
+	"contract_management/pkg/util"
 	"github.com/araddon/dateparse"
 )
 
@@ -36,9 +37,17 @@ func (svc *Service) CreateContract(params *CreateContractRequest) error {
 	if err != nil {
 		return err
 	}
-	return svc.dao.CreateContract(params.Name, params.CustomerID,
+	id, err := svc.dao.CreateContract(params.Name, params.CustomerID,
 		beginTime, endTime, params.Content, params.UserId,
 		params.FileName, params.Path, params.Type)
+	if err != nil {
+		return err
+	}
+	err = svc.dao.CreateTimeLine(id, "起草合同完成")
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (svc *Service) DeleteContract(params *DeleteContractRequest) error {
@@ -58,7 +67,21 @@ func (svc *Service) UpdateContract(params *UpdateContractRequest) error {
 	if err != nil {
 		return err
 	}
-	//TODO 通知审批人审批合同
+	go func() {
+		operators, err := svc.dao.SelectOperator(params.ID, 2)
+		if err != nil || len(operators) == 0 {
+			return
+		}
+		var emails []Email
+		for _, operator := range operators {
+			emails = append(emails, Email{ID: operator, Content: "您有新的合同在等待审批"})
+		}
+		util.PostRequest("http://localhost:8001/email", map[string]interface{}{"emails": emails})
+	}()
+	err = svc.dao.CreateTimeLine(params.ID, "定稿合同完成")
+	if err != nil {
+		return err
+	}
 	return nil
 }
 func (svc *Service) GetAllList() ([]*model.APIContract, error) {

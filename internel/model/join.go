@@ -30,13 +30,12 @@ type UserWithRole struct {
 	Username string `json:"username"`
 	Email    string `json:"email"`
 	Name     string `json:"name"`
-	RoleId   int    `gorm:"column:role_id" json:"roleId"`
 }
 
 func (u UserWithRole) List(db *gorm.DB) ([]*UserWithRole, error) {
 	var result []*UserWithRole
-	err := db.Model(User{}).Select("user.id,user.username,user.email,role.name,rights.role_id").
-		Joins("left join (rights join role on rights.role_id = role.id) on user.id = rights.user_id").
+	err := db.Model(User{}).Select("user.id,user.username,user.email,role.name").
+		Joins("left join role on user.roleId=role.id").
 		Scan(&result).Error
 	return result, err
 }

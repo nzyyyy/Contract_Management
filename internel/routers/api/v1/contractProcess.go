@@ -73,7 +73,7 @@ func (con ContractProcess) Update(c *gin.Context) {
 	case 1:
 		buffer.WriteString(fmt.Sprintf("通过了id为%d的合同的会签", params.ContractId))
 	case 2:
-		if params.ContractId == 1 {
+		if params.State == 2 {
 			buffer.WriteString(fmt.Sprintf("通过了id为%d的合同的审批", params.ContractId))
 		} else {
 			buffer.WriteString(fmt.Sprintf("否决了id为%d的合同的审批", params.ContractId))

@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func (d Dao) CreateContract(name string, customerId int, beginTime, endTime time.Time, content string, userId int, filename, path, Type string) error {
+func (d Dao) CreateContract(name string, customerId int, beginTime, endTime time.Time, content string, userId int, filename, path, Type string) (int, error) {
 	contract := model.Contract{
 		Name:       name,
 		CustomerId: customerId,
@@ -16,10 +16,10 @@ func (d Dao) CreateContract(name string, customerId int, beginTime, endTime time
 	}
 	id, err := contract.Create(d.engine)
 	if err != nil {
-		return err
+		return id, err
 	}
 	contractAttachment := model.ContractAttachment{ContractId: id, FileName: filename, Path: path, Type: Type}
-	return contractAttachment.Create(d.engine)
+	return id, contractAttachment.Create(d.engine)
 }
 func (d Dao) DeleteContract(ID int) error {
 	contract := model.Contract{ID: ID}

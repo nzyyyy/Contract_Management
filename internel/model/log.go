@@ -23,3 +23,9 @@ func (l Log) Create(db *gorm.DB) error {
 func (l Log) Delete(db *gorm.DB) error {
 	return db.Delete(&l).Error
 }
+
+func (l Log) List(db *gorm.DB) ([]*Log, error) {
+	var result []*Log
+	err := db.Find(&result).Error
+	return result, err
+}

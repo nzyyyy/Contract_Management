@@ -11,3 +11,7 @@ func (d Dao) DeleteLog(id int) error {
 	log := model.Log{ID: id}
 	return log.Delete(d.engine)
 }
+
+func (d Dao) GetLogList() ([]*model.Log, error) {
+	return model.Log{}.List(d.engine)
+}

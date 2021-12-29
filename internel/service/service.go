@@ -5,6 +5,10 @@ import (
 	"contract_management/internel/dao"
 )
 
+type Email struct {
+	ID      int    `json:"id"`
+	Content string `json:"content"`
+}
 type Service struct {
 	dao *dao.Dao
 }

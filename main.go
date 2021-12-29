@@ -5,9 +5,9 @@ import (
 	"contract_management/internel/model"
 	"contract_management/internel/routers"
 	"contract_management/pkg/setting"
+	"net/http"
 
 	"log"
-	"net/http"
 	"time"
 )
 
@@ -21,7 +21,18 @@ func init() {
 		log.Fatalf("init.setupDBEngine err: %v", err)
 	}
 }
+
 func main() {
+	//var temp []email
+	//temp = append(temp, email{
+	//	Id:      1,
+	//	Content: "测试",
+	//})
+	//temp = append(temp, email{
+	//	Id:      9,
+	//	Content: "测试",
+	//})
+	//util.PostRequest("http://localhost:8001/email", map[string]interface{}{"emails": temp})
 	router := routers.NewRouter()
 	s := &http.Server{
 		Addr:           ":" + global.ServerSetting.HttpPort,

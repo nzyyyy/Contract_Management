@@ -1,5 +1,7 @@
 package service
 
+import "contract_management/internel/model"
+
 type CreateLogRequest struct {
 	UserId  int
 	Content string
@@ -15,4 +17,7 @@ func (svc *Service) CreateLog(params *CreateLogRequest) error {
 
 func (svc *Service) DeleteLog(params *DeleteLogRequest) error {
 	return svc.dao.DeleteLog(params.LogId)
+}
+func (svc *Service) GetLogList() ([]*model.Log, error) {
+	return svc.dao.GetLogList()
 }
