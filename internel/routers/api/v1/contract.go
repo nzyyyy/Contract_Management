@@ -145,3 +145,14 @@ func (con Contract) GetContractById(c *gin.Context) {
 	}
 	response.ToResponse(contract)
 }
+
+func (con Contract) GEtContractWithoutOperator(c *gin.Context) {
+	response := app.NewResponse(c)
+	svc := service.New()
+	list, err := svc.GetContractWithoutOperator()
+	if err != nil {
+		response.ToErrorResponse(errcode.ErrorDeleteCustomerFail)
+		return
+	}
+	response.ToResponse(list)
+}

@@ -8,34 +8,25 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type Log struct{}
+type User struct{}
 
-func NewLog() Log {
-	return Log{}
+func NewUser() User {
+	return User{}
 }
 
-func (l Log) Delete(c *gin.Context) {
+func (u User) UpdateRole(c *gin.Context) {
 	response := app.NewResponse(c)
-	id, err := convert.StrTo(c.Param("id")).Int()
+	userId, err := convert.StrTo(c.Param("userId")).Int()
+	roleId, err := convert.StrTo(c.Param("roleId")).Int()
 	if err != nil {
 		response.ToErrorResponse(errcode.InvalidParams)
 		return
 	}
 	svc := service.New()
-	err = svc.DeleteLog(id)
+	err = svc.RemoveUserRole(userId, roleId)
 	if err != nil {
 		response.ToErrorResponse(errcode.ErrorDeleteCustomerFail)
 		return
 	}
 	response.ToResponse(gin.H{})
-}
-func (l Log) GetAll(c *gin.Context) {
-	response := app.NewResponse(c)
-	svc := service.New()
-	list, err := svc.GetLogList()
-	if err != nil {
-		response.ToErrorResponse(errcode.InvalidParams)
-		return
-	}
-	response.ToResponse(list)
 }

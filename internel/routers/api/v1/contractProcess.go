@@ -136,3 +136,12 @@ func (con ContractProcess) GetContractComment(c *gin.Context) {
 	}
 	response.ToResponse(comment)
 }
+func (con ContractProcess) GetContractOperators(c *gin.Context) {
+	response := app.NewResponse(c)
+	svc := service.New()
+	operators, err := svc.SelectContractOperators()
+	if err != nil {
+		response.ToErrorResponse(errcode.ErrorDeleteContractProcessFail)
+	}
+	response.ToResponse(operators)
+}

@@ -15,9 +15,9 @@ func (svc *Service) CreateLog(params *CreateLogRequest) error {
 	return svc.dao.CreateLog(params.UserId, params.Content)
 }
 
-func (svc *Service) DeleteLog(params *DeleteLogRequest) error {
-	return svc.dao.DeleteLog(params.LogId)
+func (svc *Service) DeleteLog(id int) error {
+	return svc.dao.DeleteLog(id)
 }
-func (svc *Service) GetLogList() ([]*model.Log, error) {
+func (svc *Service) GetLogList() ([]*model.APILog, error) {
 	return svc.dao.GetLogList()
 }

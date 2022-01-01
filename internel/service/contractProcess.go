@@ -28,6 +28,12 @@ type Process struct {
 	UserId int `json:"userId"`
 }
 
+type OperatorsResponse struct {
+	Signer   []*model.APIUser `json:"signer"`
+	Approver []*model.APIUser `json:"approver"`
+	Officer  []*model.APIUser `json:"officer"`
+}
+
 func (svc *Service) DeleteContractProcess(params *DeleteContractProcessRequest) error {
 	return svc.dao.DeleteContractProcess(params.ID)
 }
@@ -115,10 +121,14 @@ func (svc *Service) UpdateContractProcess(params *UpdateContractProcessRequest) 
 
 func (svc *Service) CreateContractProcess(params *CreateContractProcessRequest) error {
 	tx := svc.dao.GetTX()
+	var temp []int
 	for _, process := range params.Processes {
 		if err := tx.CreateContractProcess(params.ContractId, process.Type, process.UserId); err != nil {
 			tx.RollBack()
 			return err
+		}
+		if process.Type == 1 {
+			temp = append(temp, process.UserId)
 		}
 	}
 	tx.Commit()
@@ -126,9 +136,49 @@ func (svc *Service) CreateContractProcess(params *CreateContractProcessRequest) 
 	if err != nil {
 		return err
 	}
+	go func() {
+		ids := temp
+		var emails []Email
+		for _, id := range ids {
+			emails = append(emails, Email{ID: id, Content: "您有新的合同在等待会签"})
+		}
+		util.PostRequest("http://localhost:8001/email", map[string]interface{}{"emails": emails})
+	}()
 	return nil
 }
 
 func (svc *Service) SelectContractComment(ContractId, Type int) ([]*model.CommentOfContract, error) {
 	return svc.dao.SelectContractComment(ContractId, Type)
+}
+
+func (svc *Service) SelectContractOperators() (*OperatorsResponse, error) {
+	result := new(OperatorsResponse)
+	role1, err := svc.dao.GetRoleIdByFunc(2)
+	role2, err := svc.dao.GetRoleIdByFunc(4)
+	role3, err := svc.dao.GetRoleIdByFunc(5)
+	if err != nil {
+		return nil, err
+	}
+	for _, roleId := range role1 {
+		role, err := svc.dao.GetUserByRole(roleId.RoleId)
+		if err != nil {
+			return nil, err
+		}
+		result.Signer = append(result.Signer, role...)
+	}
+	for _, roleId := range role2 {
+		role, err := svc.dao.GetUserByRole(roleId.RoleId)
+		if err != nil {
+			return nil, err
+		}
+		result.Approver = append(result.Approver, role...)
+	}
+	for _, roleId := range role3 {
+		role, err := svc.dao.GetUserByRole(roleId.RoleId)
+		if err != nil {
+			return nil, err
+		}
+		result.Officer = append(result.Officer, role...)
+	}
+	return result, nil
 }

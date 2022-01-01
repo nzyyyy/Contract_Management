@@ -11,6 +11,12 @@ type Log struct {
 	Time    time.Time `gorm:"autoCreateTime" json:"time"`
 	Context string    `json:"context"`
 }
+type APILog struct {
+	ID       int       `gorm:"autoIncrement" json:"id"`
+	Username string    `gorm:"column:username" json:"username"`
+	Time     time.Time `gorm:"autoCreateTime" json:"time"`
+	Context  string    `json:"context"`
+}
 
 func (l Log) TableName() string {
 	return "log"
@@ -24,8 +30,8 @@ func (l Log) Delete(db *gorm.DB) error {
 	return db.Delete(&l).Error
 }
 
-func (l Log) List(db *gorm.DB) ([]*Log, error) {
-	var result []*Log
-	err := db.Find(&result).Error
+func (l Log) List(db *gorm.DB) ([]*APILog, error) {
+	var result []*APILog
+	err := db.Model(Log{}).Select("log.id,user.username,log.time,log.context").Joins("join user on log.user_id=user.id").Scan(&result).Error
 	return result, err
 }

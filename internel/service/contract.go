@@ -90,6 +90,9 @@ func (svc *Service) GetAllList() ([]*model.APIContract, error) {
 func (svc *Service) GetListByUser(userId int) ([]*model.APIContract, error) {
 	return svc.dao.GetListByUserID(userId)
 }
-func (svc *Service) GetContractById(id int) (*model.Contract, error) {
+func (svc *Service) GetContractById(id int) (*model.ContractWithFull, error) {
 	return svc.dao.GetContractById(id)
+}
+func (svc *Service) GetContractWithoutOperator() ([]*model.APIContract, error) {
+	return svc.dao.GetContractWithoutOperator()
 }

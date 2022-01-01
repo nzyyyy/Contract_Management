@@ -36,7 +36,10 @@ func (d Dao) GetAllList() ([]*model.APIContract, error) {
 func (d Dao) GetListByUserID(userId int) ([]*model.APIContract, error) {
 	return model.Contract{UserId: userId}.ListByUser(d.engine)
 }
-func (d Dao) GetContractById(id int) (*model.Contract, error) {
+func (d Dao) GetContractById(id int) (*model.ContractWithFull, error) {
 	c := model.Contract{ID: id}
 	return c.GetContractById(d.engine)
+}
+func (d Dao) GetContractWithoutOperator() ([]*model.APIContract, error) {
+	return model.Contract{}.ListWithoutOperator(d.engine)
 }

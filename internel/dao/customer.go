@@ -21,3 +21,6 @@ func (d Dao) GetOneCustomerById(ID int) (*model.Customer, error) {
 	c, err := customer.GetOneCustomer(d.engine)
 	return c, err
 }
+func (d Dao) UpdateCustomer(customer *model.Customer) error {
+	return customer.Update(d.engine)
+}

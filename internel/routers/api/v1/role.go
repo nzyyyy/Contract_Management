@@ -95,3 +95,34 @@ func (r Role) GetRoleById(c *gin.Context) {
 	}
 	response.ToResponse(role)
 }
+
+func (r Role) GetRoleWithFunctions(c *gin.Context) {
+	response := app.NewResponse(c)
+	id, err := convert.StrTo(c.Param("id")).Int()
+	if err != nil {
+		response.ToErrorResponse(errcode.InvalidParams)
+		return
+	}
+	svc := service.New()
+	role, err := svc.GetRoleWithFunctionsById(id)
+	if err != nil {
+		response.ToErrorResponse(errcode.ErrorDeleteCustomerFail)
+		return
+	}
+	response.ToResponse(role)
+}
+func (r Role) GetFuncByRoleId(c *gin.Context) {
+	response := app.NewResponse(c)
+	id, err := convert.StrTo(c.Param("id")).Int()
+	if err != nil {
+		response.ToErrorResponse(errcode.InvalidParams)
+		return
+	}
+	svc := service.New()
+	role, err := svc.GetFunctionsById(id)
+	if err != nil {
+		response.ToErrorResponse(errcode.ErrorDeleteCustomerFail)
+		return
+	}
+	response.ToResponse(role)
+}

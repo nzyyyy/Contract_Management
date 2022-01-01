@@ -30,3 +30,6 @@ func (svc *Service) GetCustomerPartList() ([]*model.APICustomer, error) {
 func (svc *Service) GetCustomerById(ID int) (*model.Customer, error) {
 	return svc.dao.GetOneCustomerById(ID)
 }
+func (svc *Service) UpdateCustomer(customer *model.Customer) error {
+	return svc.dao.UpdateCustomer(customer)
+}

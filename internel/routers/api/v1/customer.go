@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"contract_management/internel/model"
 	"contract_management/internel/service"
 	"contract_management/pkg/app"
 	"contract_management/pkg/convert"
@@ -99,4 +100,20 @@ func (cus Customer) GetCustomerById(c *gin.Context) {
 		return
 	}
 	response.ToResponse(customer)
+}
+func (cus Customer) UpdateCustomer(c *gin.Context) {
+	params := model.Customer{}
+	response := app.NewResponse(c)
+	err := c.ShouldBind(&params)
+	if err != nil {
+		response.ToErrorResponse(errcode.InvalidParams)
+		return
+	}
+	svc := service.New()
+	err = svc.UpdateCustomer(&params)
+	if err != nil {
+		response.ToErrorResponse(errcode.ErrorCreateCustomerFail)
+		return
+	}
+	response.ToResponse(gin.H{})
 }

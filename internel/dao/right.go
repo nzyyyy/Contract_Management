@@ -9,17 +9,13 @@ func (d Dao) CreateRight(functionId, roleId int) error {
 	}
 	return r.Create(d.engine)
 }
+func (d Dao) GetFunctionsByRoleId(roleId int) ([]*model.FunctionName, error) {
+	return model.Right{RoleId: roleId}.ListById(d.engine)
+}
 
-//func (d Dao) DeleterRight(userId int) error {
-//	r := model.Right{UserId: userId}
-//	return r.Delete(d.engine)
-//}
-//
-//func (d Dao) UpdateRight(userId, roleId int, description string) error {
-//	r := model.Right{
-//		UserId:      userId,
-//		RoleId:      roleId,
-//		Description: description,
-//	}
-//	return r.Update(d.engine)
-//}
+func (d Dao) GetRoleIdByFunc(f int) ([]*model.Right, error) {
+	return model.Right{FunctionId: f}.RoleIdExistFunc(d.engine)
+}
+func (d Dao) GetFuncByRoleId(id int) ([]*model.Right, error) {
+	return model.Right{RoleId: id}.ListFuncIdById(d.engine)
+}

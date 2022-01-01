@@ -41,3 +41,6 @@ func (c Customer) GetOneCustomer(db *gorm.DB) (*Customer, error) {
 	err := db.First(&customer, c.ID).Error
 	return customer, err
 }
+func (c Customer) Update(db *gorm.DB) error {
+	return db.Save(&c).Error
+}

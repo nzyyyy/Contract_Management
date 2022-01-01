@@ -12,6 +12,6 @@ func (d Dao) DeleteLog(id int) error {
 	return log.Delete(d.engine)
 }
 
-func (d Dao) GetLogList() ([]*model.Log, error) {
+func (d Dao) GetLogList() ([]*model.APILog, error) {
 	return model.Log{}.List(d.engine)
 }
